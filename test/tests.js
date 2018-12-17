@@ -10,7 +10,7 @@ const MysticTaiga = require('./../src')
 
 let mystic
 
-describe('Run some basic mysticism', function () {
+describe('Write a raw file', function () {
   this.timeout(5000)
 
   it('Get a new Mystic Taiga instance)', function () {
@@ -19,7 +19,7 @@ describe('Run some basic mysticism', function () {
         username: process.env.TAIGA_USERNAME,
         password: process.env.TAIGA_PASSWORD,
         project: process.env.TAIGA_PROJECT,
-        outputPath: process.env.TAIGA_OUTPUT_PATH
+        workingDir: process.env.TAIGA_DIR
       }
     )
   })
@@ -47,5 +47,36 @@ describe('Run some basic mysticism', function () {
   it('Write raw file', () => {
     mystic.writeRawFile()
   })
+
+})
+
+describe.only('Read some raw data from a file', function () {
+  this.timeout(5000)
+
+  it('Get a new instance', function () {
+    mystic = new MysticTaiga(
+      {
+        username: process.env.TAIGA_USERNAME,
+        password: process.env.TAIGA_PASSWORD,
+        project: process.env.TAIGA_PROJECT,
+        workingDir: process.env.TAIGA_DIR,
+        sprintEpoch: process.env.TAIGA_SPRINT_EPOCH,
+        sprintDays: parseInt(process.env.TAIGA_SPRINT_DAYS)
+      }
+    )
+  })
+
+  it('Load data from raw file', () => {
+    mystic.readRawFile()
+  })
+
+  it('Should simplify the raw API data', () => {
+    mystic.processRaw()
+  })
+
+  it('Should generate an HTML report', () => {
+    mystic.writeReport()
+  })
+
 
 })
