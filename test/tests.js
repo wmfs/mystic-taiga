@@ -50,7 +50,7 @@ describe('Write a raw file', function () {
 
 })
 
-describe.only('Read some raw data from a file', function () {
+describe('Read some raw data from a file', function () {
   this.timeout(5000)
 
   it('Get a new instance', function () {
