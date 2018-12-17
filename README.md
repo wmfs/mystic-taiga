@@ -3,6 +3,8 @@
 
 > A tool for conjuring delivery dates for Taiga projects.
 
+* Will produce reports a [bit like this](https://wmfs.github.io/mystic-taiga/).
+
 ## <a name="install"></a>Install
 ```bash
 $ npm install mystic-taiga --save
