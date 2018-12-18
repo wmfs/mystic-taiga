@@ -15,7 +15,7 @@ class MysticTaiga {
     this.raw = {}
     this.processed = {}
     this.rawPath = path.resolve(__dirname, '../', this.options.workingDir, 'raw.json')
-    this.reportPath = path.resolve(__dirname, '../', this.options.workingDir, 'index.html')
+    this.reportPath = path.resolve(__dirname, '../', this.options.outputDir || this.options.workingDir, 'index.html')
   }
 
   async connect () {
@@ -172,8 +172,8 @@ class MysticTaiga {
 
       if (now >= sprintStart && now <= endDate) {
         indexOfCurrentSprint = i
-      }
 
+      }
       sprintStart = this.addDays(sprintStart, this.options.sprintDays)
       i++
     }

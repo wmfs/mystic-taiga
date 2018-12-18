@@ -31,6 +31,7 @@
   "scripts": {
     "lint": "standard",
     "test": "nyc mocha && standard",
+    "generate": "node ./scripts/generate",
     "coverage": "node report --reporter=text-lcov > coverage.lcov && codecov",
     "semantic-release": "semantic-release"
   },
