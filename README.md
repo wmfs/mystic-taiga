@@ -48,6 +48,7 @@ git push
 ## Testing
 
 Same environment variables as above, but with the added:
+
 | Environment variable  | Notes     |
 | --------------------  | --------- |
 | `TAIGA_DIR`           | Where temp files/reports etc. will be written to, relative to project root... e.g. `./test/output` |
