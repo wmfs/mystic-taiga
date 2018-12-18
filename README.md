@@ -1,6 +1,6 @@
 # mystic-taiga
 
-> A tool for conjuring delivery dates from Taiga projects.
+> A tool for conjuring delivery dates from [Taiga.io](https://taiga.io/) projects.
 
 * Will produce reports a [bit like this](https://wmfs.github.io/mystic-taiga/).
 
