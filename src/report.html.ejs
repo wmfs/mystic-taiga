@@ -63,7 +63,7 @@
 <hr>
 <h1>Epic Progress</h1>
 
-<table style="width:100%">
+<table>
     <tr>
         <th>Epic</th>
         <th>Total points</th>
@@ -72,12 +72,14 @@
     </tr>
 
     <% epics.forEach(function(epic){ %>
+        <% if (epic.hasOwnProperty('counts')) { %>
         <tr>
-            <td class ="noDays"><a href="https://tree.taiga.io/project/<%= project.slug %>/epic/<%= epic.ref %>" target="_blank">#<%= epic.ref %> <%= epic.subject %></a></td>
-            <td>?</td>
-            <td>?</td>
-            <td>?</td>
+            <td><a href="https://tree.taiga.io/project/<%= project.slug %>/epic/<%= epic.ref %>" target="_blank">#<%= epic.ref %> <%= epic.subject %></a></td>
+            <td><%= epic.counts.total %></td>
+            <td><%= epic.counts.progress %></td>
+            <td><%= Math.ceil((epic.counts.progress / epic.counts.total) * 100) %>%</td>
         </tr>
+      <% }; %>
     <% }); %>
 </table>
 

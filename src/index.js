@@ -293,7 +293,8 @@ class MysticTaiga {
           ref: rawEpic.ref,
           subject: rawEpic.subject,
           blocked: rawEpic.is_blocked,
-          storyCountsPerSprint: []
+          storyCountsPerSprint: [],
+          counts: rawEpic.user_stories_counts
         }
       )
     })
