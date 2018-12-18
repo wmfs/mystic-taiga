@@ -59,6 +59,28 @@
 <h1><%= project.name %> Taiga Project!</h1>
 <p><%= project.description %></p>
 <p></p><strong>Generated: </strong><%= generatedTimestamp %></p>
+
+<hr>
+<h1>Epic Progress</h1>
+
+<table style="width:100%">
+    <tr>
+        <th>Epic</th>
+        <th>All points</th>
+    </tr>
+
+    <% epics.forEach(function(epic){ %>
+        <tr>
+            <td class ="noDays"><a href="https://tree.taiga.io/project/<%= project.slug %>/epic/<%= epic.ref %>" target="_blank">#<%= epic.ref %> <%= epic.subject %></a></td>
+
+            <% epic.storyCountsPerSprint.forEach(function(sprint){ %>
+                <td class="<%= sprint.weight %>"></td>
+            <% }); %>
+        </tr>
+    <% }); %>
+</table>
+
+
 <hr>
 <h1>Epic Forecast</h1>
 
