@@ -1,6 +1,45 @@
 <html>
 <head>
     <style>
+
+        th.rotate {
+            /* Something you can count on */
+            height: 9em;
+            white-space: nowrap;
+        }
+
+        th.rotate > div {
+            transform:
+                /* Magic Numbers */
+                    translate(0px, 51px)
+                        /* 45 is really 360 - 45 */
+                    rotate(270deg);
+            width: 5px;
+        }
+        th.rotate > div > span {
+            padding: 5px 10px;
+        }
+
+        .noDays {
+            background-color: #EBEDF0;
+        }
+
+        .fewDays {
+            background-color: #C6E48B;
+        }
+
+        .reasonableDays {
+            background-color: #7BC96F
+        }
+
+        .busyDays {
+            background-color: #239A3B
+        }
+
+        .heavyDays {
+            background-color: #196127
+        }
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -13,9 +52,6 @@
             padding: 8px;
         }
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
     </style>
 </head>
 <body>
@@ -27,17 +63,23 @@
 <h1>Epic Forecast</h1>
 
 <table style="width:100%">
-    <% epics.forEach(function(epic){ %>
-        <tr>
-            <td><%= epic.subject %></td>
+    <tr>
+        <th>Epic</th>
+        <% sprints.forEach(function(sprint){ %>
+            <th class="rotate"><div><span><%= sprint.tinyLabel %></span></div></th>
+        <% }); %>
+    </tr>
 
-            <% epic.storyCountsPerSprint.forEach(function(count){ %>
-                <td><%= count %></td>
+<% epics.forEach(function(epic){ %>
+        <tr>
+            <td class ="noDays"><a href="https://tree.taiga.io/project/<%= project.slug %>/epic/<%= epic.ref %>" target="_blank">#<%= epic.ref %> <%= epic.subject %></a></td>
+
+            <% epic.storyCountsPerSprint.forEach(function(sprint){ %>
+                <td class="<%= sprint.weight %>"></td>
             <% }); %>
         </tr>
     <% }); %>
 </table>
-
 
 
 <hr>
@@ -56,7 +98,8 @@
 
         <% sprint.stories.forEach(function(story){ %>
             <tr>
-                <td><a href="https://tree.taiga.io/project/<%= project.slug%>/us/<%= story.ref %>" target="_blank"><%= story.ref %></a></td>
+                <td><a href="https://tree.taiga.io/project/<%= project.slug %>/us/<%= story.ref %>"
+                       target="_blank"><%= story.ref %></a></td>
                 <td><strong><%= story.subject %></strong></td>
                 <td><%= story.blocked %></td>
                 <td><%= story.estimatedDays %></td>

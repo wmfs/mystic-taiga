@@ -164,6 +164,7 @@ class MysticTaiga {
           index: i,
           startDate: sprintStart,
           startDateLabel: `${sprintStart.getDate()} ${MONTHS[sprintStart.getMonth()]}, ${sprintStart.getFullYear()}`,
+          tinyLabel: `${sprintStart.getDate()} ${MONTHS[sprintStart.getMonth()]}`,
           endDate: endDate,
           stories: []
         }
@@ -247,12 +248,37 @@ class MysticTaiga {
     let sprintIndex = this.processed.indexOfCurrentSprint - 1
     this.processed.backlog.forEach(
       (story) => {
+        // Pushing into new sprint...
         if (story.estimatedDays + runningTotal > 40) {
           sprintIndex++
           runningTotal = 0
+          // Add a new column to the "Epic Forecast" column for each epic.
+          this.processed.epics.forEach(
+            (epic) => {
+              epic.storyCountsPerSprint.push({
+                days: 0
+              })
+            }
+          )
         }
         runningTotal += story.estimatedDays
         this.processed.sprints[sprintIndex].stories.push(story)
+        // So the "current sprint" will be the last column in each epic forecast row.
+        // So add rhe number of days here to the appropriate epic.#
+        if (story.estimatedDays) {
+          this.processed.epics.forEach(
+            (epic) => {
+              let storyEpicId = story.epicId
+              if (!storyEpicId) {
+                storyEpicId = 0
+              }
+              if (epic.id === storyEpicId) {
+                let lastCell = epic.storyCountsPerSprint[epic.storyCountsPerSprint.length - 1]
+                lastCell.days += story.estimatedDays
+              }
+            }
+          )
+        }
       }
     )
     this.processed.maxSprintIndex = sprintIndex
@@ -264,9 +290,10 @@ class MysticTaiga {
       this.processed.epics.push(
         {
           id: rawEpic.id,
+          ref: rawEpic.ref,
           subject: rawEpic.subject,
           blocked: rawEpic.is_blocked,
-          storyCountsPerSprint: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*',]
+          storyCountsPerSprint: []
         }
       )
     })
@@ -274,20 +301,54 @@ class MysticTaiga {
       {
         id: 0,
         subject: 'Not assigned an epic',
-        blocked: false,
-        storyCountsPerSprint: ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*',]
+        blocked: 'N/A',
+        storyCountsPerSprint: []
       }
     )
+  }
+
+  calculateEpicSprintSummary () {
+    const numberOfSprints = this.processed.epics[0].storyCountsPerSprint.length
+    for (let i = 0; i < numberOfSprints; i++) {
+      // First pass... get total days across all epics for a given sprint
+      let totalDaysInSprint = 0
+      this.processed.epics.forEach(
+        (epic) => {
+          totalDaysInSprint += epic.storyCountsPerSprint[i].days
+        }
+      )
+      // Second pass now apply a "weight" for each cell.
+      this.processed.epics.forEach(
+        (epic) => {
+          const sprintDays = epic.storyCountsPerSprint[i].days
+          let percentage = Math.ceil((sprintDays / totalDaysInSprint) * 100)
+          if (percentage > 100) {
+            percentage = 100
+          }
+          let className = 'noDays'
+          if (percentage > 0 && percentage < 25) {
+            className = 'fewDays'
+          } else if (percentage >= 25 && percentage < 50) {
+            className = 'reasonableDays'
+          } else if (percentage >= 50 && percentage < 75) {
+            className = 'busyDays'
+          } else if (percentage >= 75) {
+            className = 'heavyDays'
+          }
+          epic.storyCountsPerSprint[i].weight = className
+        }
+      )
+    }
   }
 
   processRaw () {
     this.processed.generatedTimestamp = new Date().toString()
     this.processed.project = this.raw.project
-    console.log(this.processed.project)
     this.generateSprints()
+    this.generateEpicSummary()
     this.generateBacklog()
     this.assignBacklogToSprints()
-    this.generateEpicSummary()
+    this.calculateEpicSprintSummary()
     this.processed.sprints = this.processed.sprints.slice(this.processed.indexOfCurrentSprint, this.processed.maxSprintIndex + 1)
   }
 

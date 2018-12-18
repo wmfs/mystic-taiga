@@ -47,10 +47,9 @@ describe('Write a raw file', function () {
   it('Write raw file', () => {
     mystic.writeRawFile()
   })
-
 })
 
-describe('Read some raw data from a file', function () {
+describe.only('Read some raw data from a file', function () {
   this.timeout(5000)
 
   it('Get a new instance', function () {
