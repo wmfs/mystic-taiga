@@ -285,8 +285,35 @@ class MysticTaiga {
   }
 
   generateEpicSummary () {
+    const _this = this
     this.processed.epics = []
     this.raw.epics.forEach((rawEpic) => {
+
+      const points = {
+        total: 0,
+        closed: 0,
+        blocked: 0
+      }
+
+      // Scan stories looking for points
+      _this.raw.stories.forEach((story) => {
+        if (story.epics) {
+          const storyEpic = story.epics[0]
+          if (storyEpic.id === rawEpic.id) {
+            const totalPoints = _this.getDaysFromPoints(story.points)
+            if (totalPoints) {
+              points.total += totalPoints
+              if (story.is_closed) {
+                points.closed += totalPoints
+              }
+              if (story.is_blocked) {
+                points.blocked += totalPoints
+              }
+            }
+          }
+        }
+      })
+
       this.processed.epics.push(
         {
           id: rawEpic.id,
@@ -294,10 +321,11 @@ class MysticTaiga {
           subject: rawEpic.subject,
           blocked: rawEpic.is_blocked,
           storyCountsPerSprint: [],
-          counts: rawEpic.user_stories_counts
+          points: points
         }
       )
     })
+
     this.processed.epics.push(
       {
         id: 0,
