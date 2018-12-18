@@ -41,7 +41,7 @@ npm run generate
 
 ``` bash
 git add .
-git oommit -m "Refreshed data"
+git commit -m "Refreshed data"
 git push
 ```
 
