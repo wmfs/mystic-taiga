@@ -15,8 +15,6 @@ npm install
 
 ### Env variables
 
-Set the following...
-
 | Environment variable  | Notes     |
 | --------------------  | --------- |
 | `TAIGA_USERNAME`      | An email address will work. |
@@ -34,7 +32,7 @@ npm run generate
 
 ### Output
 
-Success looks like...
+**Success looks like:**
 
 * A dump of API data in `/test/output/raw.json`
 * A freshly generated HTML report in `/docs/index.html`
