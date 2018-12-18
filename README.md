@@ -39,6 +39,13 @@ Success looks like...
 * A dump of API data in `/test/output/raw.json`
 * A freshly generated HTML report in `/docs/index.html`
 
+### Publishing to GitHub pages
+
+``` bash
+git add .
+git oommit -m "Refreshed data"
+git push
+```
 
 ## Testing
 
