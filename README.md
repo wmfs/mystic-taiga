@@ -57,7 +57,7 @@ Set-up some environment variables:
 | `TAIGA_PASSWORD`      | Possibly your GitHub one? |
 | `TAIGA_PROJECT`       | For example: `chriskeep-tymly` |
 | `TAIGA_DIR`           | Where temp files/reports etc. will be written to, relative to project root... e.g. `./test/output` |
-| `TAIGA_SPRINT_EPOCH`  | When the first sprint began... e.g. `21-JUN-2018` |
+| `TAIGA_SPRINT_EPOCH`  | When the first sprint began... e.g. `2018-06-21T00:00:00.000Z` |
 | `TAIGA_SPRINT_DAYS`   | Duration of calendar days that each sprint lasts, e.g. `14` |
 
 ## <a name="license"></a>License
