@@ -18,7 +18,7 @@
   },
   "main": "./lib/index.js",
   "dependencies": {
-    "axios": "0.18.0",
+    "axios": "0.19.2",
     "ejs": "2.6.1",
     "lodash": "4.17.19"
   },
